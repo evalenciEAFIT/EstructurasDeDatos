@@ -6,21 +6,39 @@ Cada archivo fuente cuenta con **comentarios exhaustivos y detallados** que expl
 
 ---
 
-## 🚀 Cómo ejecutar los programas
+## ⚙️ Compilación y Ejecución
 
-Se proporcionan scripts de automatización para facilitar la ejecución masiva de todos los ejemplos.
+Puedes ejecutar y compilar los archivos de forma individual o usar las herramientas de automatización incluidas.
 
-### Ejecución en C
-Para compilar y ejecutar todas las implementaciones en C (hace uso automático del `Makefile`):
+### Opción 1: Usando `Makefile` para C (Recomendado)
+El proyecto incluye un `Makefile` con comentarios que explican su funcionamiento. Para compilar **todos** los programas en C al mismo tiempo, simplemente ejecuta en la terminal:
 ```bash
-./ejecutar_c.sh
+make
+```
+Esto generará todos los ejecutables (`./lista_enlazada`, `./pila`, `./cola`, etc.), los cuales puedes ejecutar de forma manual, por ejemplo:
+```bash
+./lista_enlazada
+```
+Para limpiar (eliminar) todos los archivos binarios generados, usa:
+```bash
+make clean
 ```
 
-### Ejecución en Python
-Para ejecutar en secuencia todos los scripts de Python:
+### Opción 2: Ejecución individual manual
+Si prefieres compilar un archivo C paso a paso sin usar el Makefile:
 ```bash
-./ejecutar_py.sh
+gcc -Wall -Wextra -o lista_enlazada lista_enlazada.c
+./lista_enlazada
 ```
+En **Python**, no requieres compilación previa. Ejecútalos directamente:
+```bash
+python3 lista_enlazada.py
+```
+
+### Opción 3: Scripts automatizados de prueba
+Si quieres compilar y correr absolutamente **todos** los ejemplos en secuencia para ver sus resultados en consola:
+* **Para C:** ejecuta `./ejecutar_c.sh`
+* **Para Python:** ejecuta `./ejecutar_py.sh`
 
 ---
 
