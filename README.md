@@ -78,4 +78,11 @@ Estructura diseñada para modelar redes. Emplea distintos enfoques según el len
 
 ---
 
+## 💾 Generador de Datos Masivos
+
+Para probar el rendimiento de estas estructuras de datos, incluimos un módulo capaz de generar conjuntos de datos de prueba (`.csv`) con **millones de registros**.
+* 📁 Accede a la carpeta [`GenerarDatos/`](GenerarDatos/) y revisa su `README.md` para más información.
+
+---
+
 > Desarrollado como material de referencia. Siéntete libre de clonar y experimentar.
