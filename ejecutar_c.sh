@@ -6,35 +6,35 @@ echo ""
 echo "=========================================="
 echo "Ejecutando Lista Enlazada (C)"
 echo "=========================================="
-./lista_enlazada
+./bin/lista_enlazada
 
 echo ""
 echo "=========================================="
 echo "Ejecutando Pila (C)"
 echo "=========================================="
-./pila
+./bin/pila
 
 echo ""
 echo "=========================================="
 echo "Ejecutando Cola (C)"
 echo "=========================================="
-./cola
+./bin/cola
 
 echo ""
 echo "=========================================="
 echo "Ejecutando Árbol (C)"
 echo "=========================================="
-./arbol
+./bin/arbol
 
 echo ""
 echo "=========================================="
 echo "Ejecutando Tabla Hash (C)"
 echo "=========================================="
-./tabla_hash
+./bin/tabla_hash
 
 echo ""
 echo "=========================================="
 echo "Ejecutando Grafo (C)"
 echo "=========================================="
-./grafo
+./bin/grafo
 echo ""

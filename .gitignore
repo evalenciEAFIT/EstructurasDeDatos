@@ -1,0 +1,5 @@
+# Ignorar ejecutables compilados de C
+bin/
+
+# Ignorar archivos ocultos del sistema
+.DS_Store
