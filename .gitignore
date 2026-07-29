@@ -1,5 +1,10 @@
-# Ignorar ejecutables compilados de C
+# Ignorar ejecutables compilados de C genéricos
 bin/
-
 # Ignorar archivos ocultos del sistema
 .DS_Store
+
+# Archivos ejecutables compilados de C específicos del proyecto
+ListaEnlazada/codigo_c/lista_enlazada
+ListaPersonas/codigo_c/lista_personas
+ListaRendimiento/codigo_c/lista_rendimiento
+UsoApuntadores/codigo_c/apuntadores
