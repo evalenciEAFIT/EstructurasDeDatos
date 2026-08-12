@@ -10,51 +10,56 @@ En el ámbito del diseño de algoritmos, existen múltiples enfoques para atacar
 
 ### 1. Fuerza Bruta (Bubble Sort)
 
-La **fuerza bruta** es el enfoque más directo e ingenuo. No intenta ser inteligente ni optimizar el uso de recursos; simplemente ataca el problema probando todas las posibilidades sistemáticamente hasta que la condición se cumple.
+La **fuerza bruta** es el paradigma algorítmico más rudimentario. Se basa en una enumeración exhaustiva y evaluación iterativa sin aprovechar las propiedades estructurales del problema. Su lógica dicta probar todas las combinaciones o recorrer repetidamente la estructura de datos hasta alcanzar el estado deseado.
 
-* **Enfoque en el código ([`src/fuerza_bruta.c`](src/fuerza_bruta.c)):** Implementado mediante el clásico *Bubble Sort*. El algoritmo recorre repetidamente toda la lista, comparando pares de personas adyacentes y permutándolas si están en el orden incorrecto. Continúa haciendo pasadas iterativas hasta que recorre la lista completa sin realizar ningún intercambio.
-* **Análisis de Complejidad:**
-  * **Tiempo:** $\mathcal{O}(N^2)$. Al no recordar casi nada de las pasadas anteriores (salvo el límite de los ya ordenados), compara redundante e ineficientemente miles de veces los mismos nodos.
-  * **Espacio:** $\mathcal{O}(1)$. Trabaja directamente sobre la estructura de la lista (In-Place).
-* **Uso en Producción:** **Totalmente desaconsejado.** Su uso real se restringe estrictamente a la academia como herramienta pedagógica o en conjuntos de datos microscópicos (menos de 50 elementos) donde la sobrecarga de un algoritmo complejo no vale la pena.
+* **Enfoque en el código ([`src/fuerza_bruta.c`](src/fuerza_bruta.c)):** Implementado mediante *Bubble Sort*. El algoritmo recorre sistemáticamente toda la lista comparando adyacencias, arrastrando iterativamente los valores más altos hacia la cola de la estructura. 
+* **Ventajas:** Fácil de razonar e implementar. No requiere memoria adicional (In-Place).
+* **Desventajas:** Extremadamente ineficiente. Realiza comparaciones e intercambios redundantes por diseño.
 
 ---
 
-### 2. Algoritmo Codicioso / Greedy (Selection Sort)
+### 2. Algoritmos Codiciosos / Greedy (Selection Sort)
 
-Un algoritmo **codicioso (greedy)** toma, en cada paso, la decisión que parece ser la óptima en ese momento inmediato, con la esperanza de que estas decisiones "locales" conduzcan a una solución "global" óptima. No retrocede ni reconsidera sus decisiones.
+El paradigma **codicioso (greedy)** toma decisiones sub-óptimas localmente en cada paso de su ejecución, esperando heurísticamente que la acumulación de decisiones localmente óptimas devenga en un resultado global óptimo. Nunca reconsidera una decisión pasada ni proyecta a futuro; actúa exclusivamente sobre la información actual.
 
-* **Enfoque en el código ([`src/codicioso.c`](src/codicioso.c)):** Implementado mediante *Selection Sort*. El algoritmo se para en una posición de la lista y se vuelve "codicioso": escanea todo lo que queda de la lista buscando al elemento más pequeño absoluto y lo intercambia para colocarlo en la posición actual. Asume que colocar el mínimo local en su sitio definitivo es la mejor decisión sin importar el resto.
-* **Análisis de Complejidad:**
-  * **Tiempo:** $\mathcal{O}(N^2)$. Aunque es codicioso, debe explorar secuencialmente todo el resto de la lista no ordenada por cada nodo, forzando un ciclo anidado.
-  * **Espacio:** $\mathcal{O}(1)$. No requiere estructuras de memoria adicionales.
-* **Uso en Producción:** **Muy situacional.** Aunque sigue siendo lento, realiza drásticamente menos operaciones de *intercambio* (escritura en memoria) que la fuerza bruta. Es útil en sistemas embebidos (microcontroladores) donde escribir en memoria flash tiene un costo eléctrico o de desgaste alto.
+* **Enfoque en el código ([`src/codicioso.c`](src/codicioso.c)):** Implementado mediante *Selection Sort*. Desde una posición fija, explora vorazmente el resto de la lista no procesada en busca del mínimo absoluto actual. Al hallarlo, lo intercambia a su lugar definitivo de un solo movimiento.
+* **Ventajas:** Lógica intuitiva y control preciso sobre el número de operaciones de escritura (intercambios minimizados).
+* **Desventajas:** Su voracidad local le impide ignorar grandes volúmenes de datos descartables, obligándolo a leer iterativamente el conjunto completo en cada paso.
 
 ---
 
 ### 3. Divide y Vencerás (Merge Sort y Quick Sort)
 
-**Divide y Vencerás** (Divide and Conquer) es la piedra angular del alto rendimiento. Su filosofía dicta que un problema masivo es inmanejable, por lo que debe romperse por la mitad de forma recursiva hasta llegar a "casos base" (sub-problemas tan diminutos que se resuelven trivialmente). Luego, las sub-soluciones se combinan para armar la solución final.
+El enfoque **Divide y Vencerás (Divide and Conquer)** es la base computacional de la algoritmia moderna. Establece que los problemas masivos son matemáticamente inabordables como un todo. Su estrategia se divide en tres fases: **Dividir** el problema a la mitad recursivamente, **Conquistar** solucionando los micro-problemas base de manera trivial y **Combinar** las micro-soluciones para escalar nuevamente al problema completo.
 
-* **Enfoque en el código ([`src/divide_y_venceras.c`](src/divide_y_venceras.c)):** Implementado usando los dos titanes históricos:
-  * **Merge Sort (John von Neumann, 1945):** Parte la lista enlazada físicamente a la mitad hasta tener personas aisladas. Luego, las "fusiona" (merge) de vuelta pero cruzando los punteros para que queden ordenadas.
-  * **Quick Sort (Tony Hoare, 1959):** Elige una persona al azar (Pivote). Tira a los menores a la izquierda y a los mayores a la derecha. Luego repite recursivamente el proceso en ambos lados.
-* **Análisis de Complejidad:**
-  * **Tiempo:** $\mathcal{O}(N \log N)$. El proceso logarítmico (cortar por la mitad) reduce exponencialmente la cantidad de comparaciones necesarias.
-  * **Espacio:** $\mathcal{O}(\log N)$ debido a las llamadas en la pila de recursión (Stack Frame). Para listas enlazadas en C, Merge Sort no requiere arreglos auxiliares $O(N)$, haciéndolo excepcionalmente eficiente.
-* **Uso en Producción:** **Es el estándar de la industria (Industry Standard).** Lenguajes como Java, Python y C++ utilizan variantes de este paradigma bajo el capó en sus funciones nativas (como `Timsort` o `Introsort`). Es la única forma viable de ordenar millones de registros (bases de datos, Big Data).
+* **Enfoque en el código ([`src/divide_y_venceras.c`](src/divide_y_venceras.c)):** Se incluyen dos exponentes históricos:
+  * **Merge Sort (1945):** Fisión simétrica de la lista en sublistas individuales y subsecuente fusión ordenada (merge). Destaca por su estabilidad predictiva inquebrantable.
+  * **Quick Sort (1959):** Partición asimétrica dictada por un *Pivote*. Clasifica menores a babor, mayores a estribor y se llama recursivamente. Extremadamente veloz gracias al cacheo interno del procesador.
+* **Ventajas:** Optimización exponencial (logarítmica) del tiempo de procesamiento que domina masivos flujos de información en producción.
+* **Desventajas:** Dependencia estructural de llamadas recursivas en el *Stack Frame* y posible consumo adicional de memoria temporal.
 
 ---
 
 ### 4. Backtracking (Bogo Sort estructurado)
 
-El **Backtracking** (Retroceso) es una técnica de búsqueda en árboles que explora un camino para resolver un problema, y si descubre que ese camino es un callejón sin salida, "retrocede" sobre sus pasos para intentar un camino alternativo.
+El **Backtracking (Vuelta atrás)** es una técnica iterativa de búsqueda en profundidad aplicada sobre árboles de decisiones lógicas. Al encontrarse en una encrucijada, toma una rama; si descubre que dicha rama entra en conflicto o es un "callejón sin salida", retrocede cronológicamente (deshace los cambios) e intenta la siguiente alternativa de forma metódica.
 
-* **Enfoque en el código ([`src/backtracking.c`](src/backtracking.c)):** Adaptado como un modelo de demostración matemático. El programa explora el inmenso árbol de todas las *permutaciones posibles* de la lista. Intercambia valores, avanza, si no está ordenada deshace el intercambio (Backtrack) y prueba con el siguiente. Sigue iterando a ciegas hasta que, por coincidencia, el árbol choca con la combinación perfectamente ordenada.
-* **Análisis de Complejidad:**
-  * **Tiempo:** $\mathcal{O}(N!)$ (Factorial).
-  * **Espacio:** $\mathcal{O}(N)$ (Profundidad máxima del árbol de recursión).
-* **Uso en Producción:** **Jamás.** Es un anti-patrón. Matemáticamente, ordenar apenas $15$ personas requeriría $1.3 \times 10^{12}$ (un billón) de comprobaciones. Sirve exclusivamente en la teoría de la computación para demostrar comportamientos intratables (NP-Hard / Factoriales).
+* **Enfoque en el código ([`src/backtracking.c`](src/backtracking.c)):** Aunque el Backtracking no está diseñado para ordenar, lo hemos forzado construyendo el árbol de **todas las permutaciones posibles** de la lista. Intercambia iterativamente cada nodo generando ramas combinatorias y, al evaluar que la estructura no queda en ascenso, retrocede.
+* **Ventajas:** Garantiza matemáticamente hallar todas y cada una de las soluciones posibles de un sistema de condiciones complejas.
+* **Desventajas:** Su crecimiento exponencial y factorial ($\mathcal{O}(N!)$) colapsa irremediablemente el hardware ante un número minúsculo de entradas.
+
+---
+
+## Tabla de Comparación: Casos de Uso y Rendimiento de Ordenamiento
+
+A continuación, una comparativa estructural detallando en qué tipo de problemas computacionales destacan históricamente estos paradigmas y cuál es su rendimiento matemático teórico aplicado al **ordenamiento estricto de datos** (que es el enfoque central de este proyecto).
+
+| Paradigma | Casos de Uso Ideales (Naturaleza del problema) | Tiempo Promedio (Ordenamiento) | Rendimiento Real al Ordenar Datos |
+| :--- | :--- | :---: | :--- |
+| **Divide y Vencerás** | Manejo de Bases de Datos, *Big Data*, algoritmos geométricos, transformadas de Fourier (FFT). | $\mathcal{O}(N \log N)$ | **Estándar de Producción (Óptimo).** Es el motor interno en Python, C++ y Java (`sort()`). Capaz de procesar millones de registros instantáneamente. |
+| **Codicioso (Greedy)** | Compresión (Huffman), enrutamiento de redes (Dijkstra), MST (Kruskal), memorias flash (solo lectura/baja escritura). | $\mathcal{O}(N^2)$ | **Ineficiente para masividad.** Al hacer pocas escrituras pero exhaustivas lecturas (O(N²)), su rendimiento escala mal y colapsa con *datasets* medianos. |
+| **Fuerza Bruta** | Criptoanálisis primitivo, evaluación sistemática de subcadenas string microscópicas o introducciones académicas. | $\mathcal{O}(N^2)$ | **Deficiente.** Lecturas y escrituras redundantes masivas careciendo de optimización algorítmica. Inútil salvo en listas con menos de $50$ elementos. |
+| **Backtracking** | Ajedrez (IA), sudokus, combinatoria, laberintos, grafos fuertemente restringidos por bloqueos. | $\mathcal{O}(N!)$ o $\mathcal{O}(c^N)$ | **Catastrófico.** Jamás se debe usar para ordenar por la explosión combinatoria inmanejable. Totalmente colapsado ante listas diminutas ($N \le 8$). |
 
 ---
 
