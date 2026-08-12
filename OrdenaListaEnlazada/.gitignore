@@ -1,0 +1,8 @@
+# Compilados y binarios
+bin/
+obj/
+*.o
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
